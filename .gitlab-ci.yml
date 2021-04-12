@@ -1,0 +1,37 @@
+image: registry.ide3.de/docker/gcc-cmake
+
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script:
+    - cmake . 
+    - cmake --build .
+    - date
+  artifacts:
+    paths:
+      - ModularStack
+      - ModularStack-Test
+
+test: 
+  stage: test
+  script:
+    - date
+    - ls -al   
+    - ./ModularStack-Test
+    - ./ModularStack
+
+pages:
+  stage: deploy
+  script: 
+    - doxygen Doxyfile
+    - ls -al
+    - mv html public
+
+  artifacts:
+    paths:
+    - public
+    - latex
